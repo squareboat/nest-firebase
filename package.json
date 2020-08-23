@@ -1,7 +1,7 @@
 {
   "name": "@squareboat/nest-firebase",
-  "version": "0.0.4",
-  "description": "Firebase package for NestJS 💿💾",
+  "version": "0.0.1",
+  "description": "Firebase package for NestJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [
