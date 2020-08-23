@@ -1,11 +1,14 @@
 {
   "name": "@squareboat/nest-firebase",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Firebase package for NestJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [
-    "nestjs-firebase"
+    "nestjs-firebase",
+    "nestjs-dynamic-links",
+    "nestjs-firebase-cloud-messaging",
+    "nestjs-firebase-fcm"
   ],
   "repository": {
     "type": "git",

@@ -7,8 +7,12 @@ import { DynamicLinkOptions } from '../interfaces';
 export class DynamicLinkService {
   static async create(options: DynamicLinkOptions) {
     const {
-      dynamicLinks: { requestUrl, apiKey, dynamicLinkInfo, suffix },
+      dynamicLinks,
     } = FirebaseService.getConfig();
+
+    if (!dynamicLinks) return null;
+
+    const { requestUrl, apiKey, dynamicLinkInfo, suffix } = dynamicLinks
 
     const payload = DynamicLinkService.preparePayload(options, {
       dynamicLinkInfo,
