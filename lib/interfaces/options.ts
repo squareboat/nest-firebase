@@ -61,8 +61,8 @@ export interface FirebaseOptionsFactory {
 
 export interface FirebaseAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   name?: string;
-  useExisting?: Type<FirebaseOptions>;
-  useClass?: Type<FirebaseOptions>;
+  useExisting?: Type<FirebaseOptionsFactory>;
+  useClass?: Type<FirebaseOptionsFactory>;
   useFactory?: (...args: any[]) => Promise<FirebaseOptions> | FirebaseOptions;
   inject?: any[];
 }

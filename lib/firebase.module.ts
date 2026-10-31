@@ -39,9 +39,10 @@ export class FirebaseModule {
     return {
       global: true,
       module: FirebaseModule,
-      imports: [HttpModule],
+      imports: [HttpModule, ...(options.imports || [])],
       providers: [
         this.createStorageOptionsProvider(options),
+        ...(options.useClass ? [{ provide: options.useClass, useClass: options.useClass }] : []),
         FirebaseService,
         FirestoreService,
       ],
@@ -61,7 +62,7 @@ export class FirebaseModule {
     }
 
     const inject = [
-      (options.useClass || options.useExisting) as Type<FirebaseOptions>,
+      (options.useClass || options.useExisting) as Type<FirebaseOptionsFactory>,
     ];
     return {
       provide: map.FIREBASE_OPTIONS,
