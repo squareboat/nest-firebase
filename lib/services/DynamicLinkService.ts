@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
 import { FirebaseService } from '../firebase.service';
 import { ReadManyOptions, ReadOneOptions } from '../interfaces/firestore';
 import { DynamicLinkOptions } from '../interfaces';
@@ -20,14 +19,14 @@ export class DynamicLinkService {
       suffix,
     });
 
-    const config = { headers: { 'content-type': 'application/json' } };
-    const http = FirebaseService.getHttpClient();
-
     try {
-      const res = await lastValueFrom(
-        http.post(`${requestUrl}?key=${apiKey}`, payload, config),
-      );
-      return res.data;
+      const res = await fetch(`${requestUrl}?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) return {};
+      return await res.json();
     } catch (e) {
       return {};
     }

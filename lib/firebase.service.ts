@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
 import { map } from './provider.map';
 import { FirebaseOptions } from './interfaces';
 import * as firebaseAdmin from 'firebase-admin';
@@ -9,15 +8,12 @@ export class FirebaseService {
   private static config: FirebaseOptions;
   private static client: Record<string, any>;
   private static serviceClients: Record<string, any>;
-  private static httpClient: HttpService;
 
   constructor(
     @Inject(map.FIREBASE_OPTIONS) private config: FirebaseOptions,
-    private httpClient: HttpService,
   ) {
     FirebaseService.config = config;
     FirebaseService.serviceClients = {};
-    FirebaseService.httpClient = httpClient;
     this.init();
   }
 
@@ -41,10 +37,6 @@ export class FirebaseService {
 
   static getClient() {
     return FirebaseService.client;
-  }
-
-  static getHttpClient() {
-    return FirebaseService.httpClient;
   }
 
   static getConfig(): FirebaseOptions {

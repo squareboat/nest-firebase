@@ -2,13 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { FirebaseService } from '../firebase.service';
 import { ReadManyOptions, ReadOneOptions } from '../interfaces/firestore';
 
-/** Read a nested value by path, e.g. "profile.id" or "items[0].id". */
+/**
+ * Read a value by path, like lodash.get: a field whose name is the whole
+ * path wins (Firestore allows "user.id" as a field name), then
+ * "profile.id", "items[0].id" and "['a-b'].c" are followed.
+ */
 function get(obj: any, path: string): any {
-  return String(path)
-    .replace(/\[(\w+)\]/g, '.$1')
-    .split('.')
-    .filter(Boolean)
-    .reduce((value, key) => (value == null ? undefined : value[key]), obj);
+  if (obj == null) return undefined;
+  const p = String(path);
+  if (p in Object(obj)) return obj[p];
+  const keys: string[] = [];
+  p.replace(/[^.[\]]+|\[(?:(\d+)|(["'])(.*?)\2)\]/g, (match, index, quote, quoted) => {
+    keys.push(quote ? quoted : index !== undefined ? index : match);
+    return match;
+  });
+  return keys.reduce((value, key) => (value == null ? undefined : value[key]), obj);
 }
 
 @Injectable()
