@@ -1,4 +1,5 @@
-import { Module, DynamicModule, Provider, HttpModule, Type } from '@nestjs/common';
+import { Module, DynamicModule, Provider, Type } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import {
   FirebaseOptions,
   FirebaseAsyncOptions,

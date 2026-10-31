@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
 import { FirebaseService } from '../firebase.service';
 import { ReadManyOptions, ReadOneOptions } from '../interfaces/firestore';
 import { DynamicLinkOptions } from '../interfaces';
@@ -23,9 +24,9 @@ export class DynamicLinkService {
     const http = FirebaseService.getHttpClient();
 
     try {
-      const res = await http
-        .post(`${requestUrl}?key=${apiKey}`, payload, config)
-        .toPromise();
+      const res = await lastValueFrom(
+        http.post(`${requestUrl}?key=${apiKey}`, payload, config),
+      );
       return res.data;
     } catch (e) {
       return {};

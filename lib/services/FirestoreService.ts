@@ -1,7 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { FirebaseService } from '../firebase.service';
 import { ReadManyOptions, ReadOneOptions } from '../interfaces/firestore';
-import { get } from 'lodash';
+
+/** Read a nested value by path, e.g. "profile.id" or "items[0].id". */
+function get(obj: any, path: string): any {
+  return String(path)
+    .replace(/\[(\w+)\]/g, '.$1')
+    .split('.')
+    .filter(Boolean)
+    .reduce((value, key) => (value == null ? undefined : value[key]), obj);
+}
 
 @Injectable()
 export class FirestoreService {

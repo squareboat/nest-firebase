@@ -23,7 +23,8 @@ export class CloudMessaging {
   }
 
   private async handleSend(message: Record<string, any>): Promise<Record<string, any>> {
-    const func = Array.isArray(message.tokens) ? 'sendMulticast' : 'send';
+    // firebase-admin 13 removed sendMulticast(); sendEachForMulticast() returns the same BatchResponse
+    const func = Array.isArray(message.tokens) ? 'sendEachForMulticast' : 'send';
     return await this.client.messaging()[func](message);
   }
 }

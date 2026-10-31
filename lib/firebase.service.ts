@@ -1,4 +1,5 @@
-import { Injectable, Inject, HttpService } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { map } from './provider.map';
 import { FirebaseOptions } from './interfaces';
 import * as firebaseAdmin from 'firebase-admin';
