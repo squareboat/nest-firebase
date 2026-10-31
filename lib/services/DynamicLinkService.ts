@@ -7,22 +7,26 @@ import { DynamicLinkOptions } from '../interfaces';
 export class DynamicLinkService {
   static async create(options: DynamicLinkOptions) {
     const {
-      dynamicLinks: { requestUrl, apiKey, dynamicLinkInfo, suffix },
+      dynamicLinks,
     } = FirebaseService.getConfig();
+
+    if (!dynamicLinks) return null;
+
+    const { requestUrl, apiKey, dynamicLinkInfo, suffix } = dynamicLinks
 
     const payload = DynamicLinkService.preparePayload(options, {
       dynamicLinkInfo,
       suffix,
     });
 
-    const config = { headers: { 'content-type': 'application/json' } };
-    const http = FirebaseService.getHttpClient();
-
     try {
-      const res = await http
-        .post(`${requestUrl}?key=${apiKey}`, payload, config)
-        .toPromise();
-      return res.data;
+      const res = await fetch(`${requestUrl}?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) return {};
+      return await res.json();
     } catch (e) {
       return {};
     }
